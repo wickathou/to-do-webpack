@@ -16,41 +16,20 @@
     <div class="card">
       <div class="p-4 card-header d-flex justify-content-between">
         <p class="p-0 m-0">Demo</p>
-        <div class="p-0 m-0">Refresh</div>
+        <i class="fa-solid fa-arrows-rotate"></i>
       </div>
-      <div>
-        <input class="w-100 p-4" type="text" name="" id="">
+      <div class="p-4 d-flex align-items-center justify-content-between">
+        <input class="w-100 border-0" placeholder="New task" type="text" name="" id="">
+        <i class="fa-solid fa-arrow-turn-down"></i>
       </div>
-      <ul class="list-group list-group-flush">
-        <li class="p-4 list-group-item d-flex justify-content-between">
-          <div class="d-flex justify-content-between">
-            <input class="form-check-input" type="checkbox" value="" id="task-1">
-            <label class="p-0 m-0 form-check-label" for="task-1">
-              Default checkbox
-            </label>
-            <p class="p-0 m-0 hidden">Task description</p>
-          </div>
-          <span>H</span>
-        </li>
-        <li class="p-4 list-group-item d-flex justify-content-between">
-          <div class="d-flex justify-content-between">
-            <input type="checkbox" name="" id="">
-            <p class="p-0 m-0">Task description</p>
-          </div>
-          <span>H</span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between">
-          <div class="d-flex justify-content-between">
-            <input type="checkbox" name="" id="">
-            <p>Task description</p>
-          </div>
-          <span>H</span>
-        </li>
+      <ul id="task-list" class="list-group list-group-flush">
       </ul>
+      <div class="p-4 bg-light text-center">
+        <a href="#" class="link-secondary">Clear all completed</a>
+      </div>
     </div>
   </main>
-  <footer class="p-4">
-    <h1>To Do List</h1>
+  <footer>
   </footer>
 </body>
 </html>
