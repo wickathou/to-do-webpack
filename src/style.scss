@@ -1,3 +1,10 @@
-body {
-  background-color: aqua;
+@import "custom";
+@import "~bootstrap/scss/bootstrap";
+
+.w-1000px {
+  width: 800px;
+}
+
+.hidden {
+  display: none;
 }
