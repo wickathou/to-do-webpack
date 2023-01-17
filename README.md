@@ -25,6 +25,10 @@
 
 HTML | JS | GIT
 
+Webpack
+
+SCSS
+
 ## 🚀 Live Demo <a name="live-demo"></a>
 
 - [Live Demo Link](https://wickathou.github.io/to-do-webpack/)
