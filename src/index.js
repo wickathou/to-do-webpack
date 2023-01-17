@@ -45,5 +45,4 @@ newList.tasks.forEach(task => {
   taskListDom.appendChild(li)
 });
 
-console.log(newList);
 
