@@ -4,8 +4,7 @@
 - [📖 To Do List Generator ](#-to-do-list-generator-)
   - [🛠 Built With ](#-built-with-)
     - [Tech Stack ](#tech-stack-)
-  - [🚀 Live Demo ](#-live-demo-)
-  - [💻 Getting Started ](#-getting-started-)
+  - [� Getting Started ](#-getting-started-)
     - [Prerequisites](#prerequisites)
     - [Setup](#setup)
     - [Usage](#usage)
@@ -28,10 +27,6 @@ HTML | JS | GIT
 Webpack
 
 SCSS
-
-## 🚀 Live Demo <a name="live-demo"></a>
-
-- [Live Demo Link](https://wickathou.github.io/to-do-webpack/)
 
 ## 💻 Getting Started <a name="getting-started"></a>
 
