@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: "development",
+  mode: 'development',
   entry: './src/index.js',
   devServer: {
     static: './dist',
@@ -12,30 +12,30 @@ module.exports = {
       {
         test: /\.(scss)$/,
         use: [{
-          loader: 'style-loader'
+          loader: 'style-loader',
         }, {
-          loader: 'css-loader'
+          loader: 'css-loader',
         }, {
           loader: 'postcss-loader',
           options: {
             postcssOptions: {
-              plugins: function () {
+              plugins() {
                 return [
-                  require('autoprefixer')
+                  require('autoprefixer'),
                 ];
-              }
-            }
-          }
+              },
+            },
+          },
         }, {
-          loader: 'sass-loader'
-        }]
-      }
-    ]
+          loader: 'sass-loader',
+        }],
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "To Do List",
-      template: "./src/index.html"
+      title: 'To Do List',
+      template: './src/index.html',
     }),
   ],
   output: {
