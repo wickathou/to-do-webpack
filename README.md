@@ -17,7 +17,7 @@
 
 # 📖 To Do List Generator <a name="about-project"></a>
 
-**To Do List Generator**, in this project a simple website with dynamic data using JS has been modified to use ES6 and modules instead of vanilla JS.
+**To Do List Generator**, is a tool to organize your day. You can create a list of tasks, which once created can be reordered, marked as complete or deleted.
 
 ## 🛠 Built With <a name="built-with"></a>
 
@@ -27,7 +27,7 @@ HTML | JS | GIT
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-- [Live Demo Link](https://wickathou.github.io/es6-awesome-book/)
+- [Live Demo Link](https://wickathou.github.io/to-do-webpack/)
 
 ## 💻 Getting Started <a name="getting-started"></a>
 
@@ -43,7 +43,7 @@ GIT | A code editor | A web browser
 
 Clone this repository to your desired folder:
 
-  `git clone git@github.com:wickathou/es6-awesome-books.git`
+  `git clone git@github.com:wickathou/to-do-webpacks.git`
 
 ### Usage
 
@@ -64,7 +64,7 @@ To run the project, open index.html with your preferred web browser or open it w
 
 ## 🤝 Contributing <a name="contributing"></a>
 
-Feel free to check the [issues page](https://github.com/wickathou/es6-awesome-book/issues).
+Feel free to check the [issues page](https://github.com/wickathou/to-do-webpack/issues).
 
 ## 🙏 Acknowledgments <a name="acknowledgements"></a>
 
