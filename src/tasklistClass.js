@@ -12,7 +12,7 @@ class Tasks {
     const li = document.createElement('li');
     li.classList = 'p-4 task-list-element list-group-item d-flex align-items-center justify-content-between';
     li.id = `task-${task.index}`
-    li.innerHTML = `<div class="d-flex w-100"><input class="form-check-input me-2" type="checkbox" value=""><input class="w-100 p-0 m-0 border-0 hiden" name="" id="${task.index}" value="${task.description}"></div><i id="order-${task.index}" class="ps-2 fa-solid fa-ellipsis-vertical"></i><i id="delete-${task.index}" class="ps-2 hidden fa-solid fa-trash-can"></i>`;
+    li.innerHTML = `<div class="d-flex w-100"><input class="form-check-input me-2" type="checkbox" value=""><input class="w-100 p-0 m-0 border-0 hiden" name="" id="${task.index}" value="${task.description}"></div><div><a id="order-${task.index}"><i class="ps-2 fa-solid fa-ellipsis-vertical"></i></a><a id="delete-${task.index}"><i class="ps-2 hidden fa-solid fa-trash-can"></i></a></div>`;
     taskListDom.appendChild(li);
   }
 
