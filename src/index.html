@@ -6,7 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
-<body>
-  <h1>To Do List</h1>
+<body class="bg-light d-flex flex-column justify-content-center align-items-center">
+  <header class="p-4">
+    <div>
+      <h1>To Do App</h1>
+    </div>
+  </header>
+  <main class="p-4 w-1000px">
+    <div class="card">
+      <div class="p-4 card-header d-flex justify-content-between">
+        <p class="p-0 m-0">Demo</p>
+        <i class="fa-solid fa-arrows-rotate"></i>
+      </div>
+      <div class="p-4 d-flex align-items-center justify-content-between">
+        <input class="w-100 border-0" placeholder="New task" type="text" name="" id="">
+        <i class="fa-solid fa-arrow-turn-down"></i>
+      </div>
+      <ul id="task-list" class="list-group list-group-flush">
+      </ul>
+      <div class="p-4 bg-light text-center">
+        <a href="#" class="link-secondary">Clear all completed</a>
+      </div>
+    </div>
+  </main>
+  <footer>
+  </footer>
 </body>
 </html>
