@@ -5,61 +5,67 @@ import Task from './taskClass.js';
 import taskList from './tasklistClass.js'
 
 const inputRegex = /^\S/;
+const numberRegex = /\d+/;
+const deleteRegex = /^delete-/;
 const taskListDom = document.getElementById('task-list');
 const newTaskDom = document.getElementById('new-task');
 let taskListElements = null
 
-// document.getElementsByClassName
-
 newTaskDom.addEventListener('keyup', (e) => {
   if (e.key === 'Enter' && inputRegex.test(e.target.value)) {
     taskList.add(new Task(e.target.value), taskListDom);
+    taskListElements = document.querySelectorAll('.task-list-element')
+    taskEventsUpdater()
     e.target.value = ''
   };
 })
 
-taskListDom.addEventListener('click', (e) => {
-  const id = e.target.id.match(/\d+/)[0];
-  console.log(id);
-  const li = document.getElementById(`task-${id}`)
+const taskEventsUpdater = () => {
+  taskListElements.forEach(task => {
+    const id = task.id.match(numberRegex)[0];
+    const li = document.getElementById(`task-${id}`)
+    const deleteButton = document.getElementById(`delete-${id}`)
 
-  li.classList.add('highlight')
-  li.querySelector('.fa-ellipsis-vertical').classList.add('hidden')
-  li.querySelector('.fa-trash-can').classList.remove('hidden')
-  if (e.target.tagName === 'INPUT') {
-
-    e.target.addEventListener('change', (i) => {
-      taskList.edit(i.target.value, i.target.id)
-    })
+    task.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', e.target.id);
+    });
+    task.addEventListener('dragover', e => {
+      e.preventDefault();
+    });
+    task.addEventListener('drop', e => {
+      e.preventDefault();
+      const data = e.dataTransfer.getData('text/plain');
+      const draggableElement = document.getElementById(data);
+      const dropzone = e.target.closest('li');
+      console.log(dropzone);
+      dropzone.parentNode.insertBefore(draggableElement, dropzone);
+    });
     
-    // li.addEventListener('focusout', () => {
-    //   li.classList.remove('highlight')
-    //   li.querySelector('.fa-ellipsis-vertical').classList.remove('hidden')
-    //   li.querySelector('.fa-trash-can').classList.add('hidden')
-    // })
-  }
-})
-
-taskListDom.addEventListener('focusout', (f) => {
-  const id = f.target.id.match(/\d+/)[0];
-  console.log(id);
-  const li = document.getElementById(`task-${id}`)
-  li.classList.remove('highlight')
-  li.querySelector('.fa-ellipsis-vertical').classList.remove('hidden')
-  li.querySelector('.fa-trash-can').classList.add('hidden')
-});
-
-// taskListDom.addEventListener('click', (e) => {
-//   const id = e.target.id.match(/\d+/)[0];
-//   console.log(id);
-//   const li = document.getElementById(`task-${id}`)
+    task.addEventListener('click', (e) => {
+      // e.preventDefault();
+      li.classList.add('highlight')
+      li.querySelector('.fa-ellipsis-vertical').classList.add('hidden')
+      li.querySelector('.fa-trash-can').classList.remove('hidden')
+      deleteButton.addEventListener('click', (i) => {
+        // i.stopPropagation();
+        taskList.remove(id);
+        li.remove();
+      })
+    })
   
-//   if (/^delete-/.test(e.target.id)) {
-//     console.log('delete');
-//   }
+    task.addEventListener('focusout', () => {
+      li.classList.remove('highlight')
+      li.querySelector('.fa-ellipsis-vertical').classList.remove('hidden')
+      li.querySelector('.fa-trash-can').classList.add('hidden')
+    });
 
-//   li.querySelector(`#delete-${id}`).addEventListener('click', (a) => {
-//     console.log('delete');
-//     li.remove();
-//   })
-// })
+    document.addEventListener('click', (e) => {
+      if (!task.contains(e.target)) {
+        li.classList.remove('highlight')
+        li.querySelector('.fa-ellipsis-vertical').classList.remove('hidden')
+        li.querySelector('.fa-trash-can').classList.add('hidden')
+      }
+    });
+
+  });
+}

@@ -12,3 +12,7 @@
 .highlight {
   background-color: $yellow;
 }
+
+[id^="order-"]:hover {
+  cursor: move;
+}
