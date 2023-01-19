@@ -11,9 +11,11 @@ const taskListDom = document.getElementById('task-list');
 const newTaskDom = document.getElementById('new-task');
 let taskListElements = null
 
+
 newTaskDom.addEventListener('keyup', (e) => {
   if (e.key === 'Enter' && inputRegex.test(e.target.value)) {
-    taskList.add(new Task(e.target.value), taskListDom);
+    taskList.add(new Task(e.target.value));
+    taskList.generate(taskListDom)
     taskListElements = document.querySelectorAll('.task-list-element')
     taskEventsUpdater()
     e.target.value = ''
@@ -49,7 +51,6 @@ const taskEventsUpdater = () => {
       deleteButton.addEventListener('click', (i) => {
         // i.stopPropagation();
         taskList.remove(id);
-        li.remove();
       })
     })
   

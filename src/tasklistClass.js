@@ -9,13 +9,24 @@ class Tasks {
     localStorage.setItem('tasks', JSON.stringify(this.tasks))
   }
 
-  #newTaskElement = (task, taskListDom) => {
+  #addToDom = (element, taskListDom) => {
+    taskListDom.appendChild(element);
+  }
+
+  #TaskElement = (task) => {
     const li = document.createElement('li');
     li.classList = 'p-4 task-list-element list-group-item d-flex align-items-center justify-content-between';
     li.id = `task-${task.uniqueId}`;
     li.setAttribute('draggable', true)
-    li.innerHTML = `<div class="d-flex w-100"><input class="form-check-input me-2" type="checkbox" value=""><input class="w-100 p-0 m-0 border-0 hiden" name="" id="${task.uniqueId}" value="${task.description}"></div><div><a id="order-${task.uniqueId}"><i class="ps-2 fa-solid fa-ellipsis-vertical"></i></a><a id="delete-${task.uniqueId}"><i class="ps-2 hidden fa-solid fa-trash-can"></i></a></div>`;
-    taskListDom.appendChild(li);
+    li.innerHTML = `<div class="d-flex w-100"><input class="form-check-input me-2" type="checkbox" value=""><input class="w-100 p-0 m-0 border-0" name="" id="${task.uniqueId}" value="${task.description}"></div><div><a id="order-${task.uniqueId}"><i class="ps-2 fa-solid fa-ellipsis-vertical"></i></a><a id="delete-${task.uniqueId}"><i class="ps-2 hidden fa-solid fa-trash-can"></i></a></div>`;
+    return li
+  }
+
+  generate = (taskListDom) => {
+    taskListDom.innerHTML = '';
+    this.tasks.forEach((task) => {
+      this.#addToDom(this.#TaskElement(task), taskListDom)
+    })
   }
 
   edit = (editTaskDescription, id) => {
@@ -29,7 +40,7 @@ class Tasks {
     task.uniqueId = this.idGen;
     this.tasks.push(task);
     // this.#addToLocalStorage()
-    this.#newTaskElement(task, taskListDom)
+    // this.#addToDom(this.#TaskElement(task), taskListDom)
   }
 
   remove = (id) => {
