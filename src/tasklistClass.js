@@ -6,26 +6,25 @@ class Tasks {
   }
 
   #addToLocalStorage = () => {
-    localStorage.setItem('tasks', JSON.stringify(this.tasks))
+    localStorage.setItem('tasks', JSON.stringify(this.tasks));
   }
 
   #getFromLocalStorage = () => {
-    const storedTasks = JSON.parse(localStorage.getItem('tasks'))
+    const storedTasks = JSON.parse(localStorage.getItem('tasks'));
     if (storedTasks) {
       this.tasks = storedTasks;
-      return true
-    } else {
-      return false
+      return true;
     }
+    return false;
   }
-  
+
   #addToDom = (element, taskListDom) => {
     taskListDom.appendChild(element);
   }
-  
+
   #addEvents = (id, li) => {
-    const deleteButton = li.querySelector(`#delete-${id}`)
-    const inputText = li.querySelector(`#input-${id}`)
+    const deleteButton = li.querySelector(`#delete-${id}`);
+    const inputText = li.querySelector(`#input-${id}`);
 
     li.addEventListener('dragstart', (e) => {
       e.dataTransfer.setData('text/plain', e.target.id);
@@ -42,26 +41,25 @@ class Tasks {
     });
 
     inputText.addEventListener('change', (e) => {
-      this.edit(e.target.value, id)
-    })
+      this.edit(e.target.value, id);
+    });
 
+    li.addEventListener('click', () => {
+      li.classList.add('highlight');
+      li.querySelector('.fa-ellipsis-vertical').classList.add('hidden');
+      li.querySelector('.fa-trash-can').classList.remove('hidden');
+    });
 
-    li.addEventListener('click', (e) => {
-      li.classList.add('highlight')
-      li.querySelector('.fa-ellipsis-vertical').classList.add('hidden')
-      li.querySelector('.fa-trash-can').classList.remove('hidden')
-    })
-    
-    deleteButton.addEventListener('click', (i) => {
-      taskList.remove(id);
-      li.remove()
-    })
+    deleteButton.addEventListener('click', () => {
+      this.remove(id);
+      li.remove();
+    });
 
     document.addEventListener('click', (e) => {
       if (!li.contains(e.target)) {
-        li.classList.remove('highlight')
-        li.querySelector('.fa-ellipsis-vertical').classList.remove('hidden')
-        li.querySelector('.fa-trash-can').classList.add('hidden')
+        li.classList.remove('highlight');
+        li.querySelector('.fa-ellipsis-vertical').classList.remove('hidden');
+        li.querySelector('.fa-trash-can').classList.add('hidden');
       }
     });
   }
@@ -70,34 +68,34 @@ class Tasks {
     const li = document.createElement('li');
     li.classList = 'p-4 task-list-element list-group-item d-flex align-items-center justify-content-between';
     li.id = `task-${task.uniqueId}`;
-    li.setAttribute('draggable', true)
+    li.setAttribute('draggable', true);
     li.innerHTML = `<div class="d-flex w-100"><input class="form-check-input me-2" type="checkbox" value=""><input class="w-100 p-0 m-0 border-0" name="" id="input-${task.uniqueId}" value="${task.description}"></div><div><a id="order-${task.uniqueId}"><i class="ps-2 fa-solid fa-ellipsis-vertical"></i></a><a id="delete-${task.uniqueId}"><i class="ps-2 hidden fa-solid fa-trash-can"></i></a></div>`;
-    return li
+    return li;
   }
 
   generate = (taskListDom) => {
-    let indexUpdater = 0
+    let indexUpdater = 0;
     taskListDom.innerHTML = '';
     this.tasks.forEach((task) => {
       indexUpdater += 1;
-      task.index = indexUpdater
+      task.index = indexUpdater;
       const li = this.#TaskElement(task);
-      this.#addEvents(task.uniqueId, li)
-      this.#addToDom(li, taskListDom)
-      this.#addToLocalStorage()
-    })
+      this.#addEvents(task.uniqueId, li);
+      this.#addToDom(li, taskListDom);
+      this.#addToLocalStorage();
+    });
   }
 
   retrieve = (taskListDom) => {
     if (this.#getFromLocalStorage()) {
-      this.generate(taskListDom)
+      this.generate(taskListDom);
     }
   }
 
   edit = (editTaskDescription, id) => {
-    let taskMod = this.tasks.find(task => task.uniqueId === parseInt(id, 10));
-    taskMod.description = editTaskDescription
-    this.#addToLocalStorage()
+    const taskMod = this.tasks.find((task) => task.uniqueId === parseInt(id, 10));
+    taskMod.description = editTaskDescription;
+    this.#addToLocalStorage();
   }
 
   add = (task) => {
@@ -109,11 +107,10 @@ class Tasks {
 
   remove = (id) => {
     this.items -= 1;
-    const updatedTasks = this.tasks.filter(task => task.uniqueId !== parseInt(id, 10));
+    const updatedTasks = this.tasks.filter((task) => task.uniqueId !== parseInt(id, 10));
     this.tasks = updatedTasks;
-    this.#addToLocalStorage()
+    this.#addToLocalStorage();
   }
-
 }
 
 const taskList = new Tasks();
