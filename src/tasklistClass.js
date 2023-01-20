@@ -1,12 +1,17 @@
-class Tasks {
-  constructor() {
+export default class Tasks {
+  constructor(insertElement) {
     this.tasks = [];
     this.items = 0;
-    this.insertElement;
+    this.insertElement = insertElement;
   }
 
   #addToLocalStorage = () => {
     localStorage.setItem('tasks', JSON.stringify(this.tasks));
+  }
+
+  #taskFinder = (id) => {
+    const taskMod = this.tasks.find((task) => task.index === parseInt(id, 10));
+    return taskMod;
   }
 
   #getFromLocalStorage = () => {
@@ -25,7 +30,7 @@ class Tasks {
   #addEvents = (id, li) => {
     const deleteButton = li.querySelector(`#delete-${id}`);
     const inputText = li.querySelector(`#input-${id}`);
-    const statusCompletion = li.querySelector(`#status-${id}`)
+    const statusCompletion = li.querySelector(`#status-${id}`);
 
     li.addEventListener('dragstart', (e) => {
       e.dataTransfer.setData('text/plain', e.target.id);
@@ -46,8 +51,8 @@ class Tasks {
     });
 
     statusCompletion.addEventListener('change', (e) => {
-      this.status(e.target, id)
-    })
+      this.status(e.target, id);
+    });
 
     li.addEventListener('click', () => {
       li.classList.add('highlight');
@@ -100,14 +105,8 @@ class Tasks {
     }
   }
 
-  #taskFinder = (id) => {
-    const taskMod = this.tasks.find((task) => task.index === parseInt(id, 10));
-    return taskMod;
-  }
-
   status = (statusElement, id) => {
-    console.log(statusElement.checked);
-    this.#taskFinder(id).complete = statusElement.checked
+    this.#taskFinder(id).complete = statusElement.checked;
     this.#addToLocalStorage();
   }
 
@@ -118,10 +117,9 @@ class Tasks {
 
   deleteCompleted = () => {
     const updatedTasks = this.tasks.filter((task) => task.complete === false);
-    console.log(updatedTasks);
-    this.tasks = updatedTasks
-    this.items = updatedTasks.length
-    this.#addToLocalStorage()
+    this.tasks = updatedTasks;
+    this.items = updatedTasks.length;
+    this.#addToLocalStorage();
   }
 
   add = (task) => {
@@ -137,7 +135,3 @@ class Tasks {
     this.#addToLocalStorage();
   }
 }
-
-const taskList = new Tasks();
-
-export default taskList;

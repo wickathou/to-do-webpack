@@ -2,11 +2,11 @@ import Task from './taskClass.js';
 
 export const clearAll = (element, taskList, taskListDom) => {
   element.addEventListener('click', (e) => {
-    e.preventDefault()
-    taskList.deleteCompleted()
+    e.preventDefault();
+    taskList.deleteCompleted();
     taskList.generate(taskListDom);
-  })
-}
+  });
+};
 
 export const newTask = (inputRegex, element, taskList, taskListDom) => {
   element.addEventListener('keyup', (e) => {
@@ -16,4 +16,4 @@ export const newTask = (inputRegex, element, taskList, taskListDom) => {
       e.target.value = '';
     }
   });
-}
+};
