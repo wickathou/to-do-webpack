@@ -2,7 +2,6 @@ class Tasks {
   constructor() {
     this.tasks = [];
     this.items = 0;
-    this.insertElement;
   }
 
   #addToLocalStorage = () => {
@@ -52,7 +51,7 @@ class Tasks {
 
     deleteButton.addEventListener('click', () => {
       this.remove(id);
-      this.generate(this.insertElement)
+      this.generate(this.insertElement);
       li.remove();
     });
 
