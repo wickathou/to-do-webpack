@@ -116,6 +116,14 @@ class Tasks {
     this.#addToLocalStorage();
   }
 
+  deleteCompleted = () => {
+    const updatedTasks = this.tasks.filter((task) => task.complete === false);
+    console.log(updatedTasks);
+    this.tasks = updatedTasks
+    this.items = updatedTasks.length
+    this.#addToLocalStorage()
+  }
+
   add = (task) => {
     this.items += 1;
     task.index = this.items;
