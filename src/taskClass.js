@@ -3,6 +3,5 @@ export default class Task {
     this.description = task;
     this.complete = false;
     this.index = 0;
-    this.uniqueId = 0;
   }
 }

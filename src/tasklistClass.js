@@ -2,7 +2,7 @@ class Tasks {
   constructor() {
     this.tasks = [];
     this.items = 0;
-    this.idGen = 0;
+    this.insertElement;
   }
 
   #addToLocalStorage = () => {
@@ -52,6 +52,7 @@ class Tasks {
 
     deleteButton.addEventListener('click', () => {
       this.remove(id);
+      this.generate(this.insertElement)
       li.remove();
     });
 
@@ -67,9 +68,9 @@ class Tasks {
   #TaskElement = (task) => {
     const li = document.createElement('li');
     li.classList = 'p-4 task-list-element list-group-item d-flex align-items-center justify-content-between';
-    li.id = `task-${task.uniqueId}`;
+    li.id = `task-${task.index}`;
     li.setAttribute('draggable', true);
-    li.innerHTML = `<div class="d-flex w-100"><input class="form-check-input me-2" type="checkbox" value=""><input class="w-100 p-0 m-0 border-0" name="" id="input-${task.uniqueId}" value="${task.description}"></div><div><a id="order-${task.uniqueId}"><i class="ps-2 fa-solid fa-ellipsis-vertical"></i></a><a id="delete-${task.uniqueId}"><i class="ps-2 hidden fa-solid fa-trash-can"></i></a></div>`;
+    li.innerHTML = `<div class="d-flex w-100"><input class="form-check-input me-2" type="checkbox" value=""><input class="w-100 p-0 m-0 border-0" name="" id="input-${task.index}" value="${task.description}"></div><div><a id="order-${task.index}"><i class="ps-2 fa-solid fa-ellipsis-vertical"></i></a><a id="delete-${task.index}"><i class="ps-2 hidden fa-solid fa-trash-can"></i></a></div>`;
     return li;
   }
 
@@ -78,9 +79,10 @@ class Tasks {
     taskListDom.innerHTML = '';
     this.tasks.forEach((task) => {
       indexUpdater += 1;
+      this.items = indexUpdater;
       task.index = indexUpdater;
       const li = this.#TaskElement(task);
-      this.#addEvents(task.uniqueId, li);
+      this.#addEvents(task.index, li);
       this.#addToDom(li, taskListDom);
       this.#addToLocalStorage();
     });
@@ -93,21 +95,20 @@ class Tasks {
   }
 
   edit = (editTaskDescription, id) => {
-    const taskMod = this.tasks.find((task) => task.uniqueId === parseInt(id, 10));
+    const taskMod = this.tasks.find((task) => task.index === parseInt(id, 10));
     taskMod.description = editTaskDescription;
     this.#addToLocalStorage();
   }
 
   add = (task) => {
     this.items += 1;
-    this.idGen += 1;
-    task.uniqueId = this.idGen;
+    task.index = this.items;
     this.tasks.push(task);
   }
 
   remove = (id) => {
     this.items -= 1;
-    const updatedTasks = this.tasks.filter((task) => task.uniqueId !== parseInt(id, 10));
+    const updatedTasks = this.tasks.filter((task) => task.index !== parseInt(id, 10));
     this.tasks = updatedTasks;
     this.#addToLocalStorage();
   }
