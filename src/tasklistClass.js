@@ -9,8 +9,60 @@ class Tasks {
     localStorage.setItem('tasks', JSON.stringify(this.tasks))
   }
 
+  #getFromLocalStorage = () => {
+    const storedTasks = JSON.parse(localStorage.getItem('tasks'))
+    if (storedTasks.length > 0) {
+      this.tasks = storedTasks;
+      return true
+    } else {
+      return false
+    }
+  }
+  
   #addToDom = (element, taskListDom) => {
     taskListDom.appendChild(element);
+  }
+  
+  #addEvents = (id, li) => {
+    console.log(id);
+    console.log(li);
+    const deleteButton = li.querySelector(`#delete-${id}`)
+
+    li.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', e.target.id);
+    });
+    li.addEventListener('dragover', e => {
+      e.preventDefault();
+    });
+    li.addEventListener('drop', e => {
+      e.preventDefault();
+      const data = e.dataTransfer.getData('text/plain');
+      const draggableElement = document.getElementById(data);
+      const dropzone = e.target.closest('li');
+      console.log(dropzone);
+      dropzone.parentNode.insertBefore(draggableElement, dropzone);
+    });
+
+
+    li.addEventListener('click', (e) => {
+      li.classList.add('highlight')
+      li.querySelector('.fa-ellipsis-vertical').classList.add('hidden')
+      li.querySelector('.fa-trash-can').classList.remove('hidden')
+    })
+    
+    deleteButton.addEventListener('click', (i) => {
+      taskList.remove(id);
+      li.remove()
+      console.log('delete');
+    })
+
+    document.addEventListener('click', (e) => {
+      if (!li.contains(e.target)) {
+        li.classList.remove('highlight')
+        li.querySelector('.fa-ellipsis-vertical').classList.remove('hidden')
+        li.querySelector('.fa-trash-can').classList.add('hidden')
+      }
+    });
   }
 
   #TaskElement = (task) => {
@@ -23,15 +75,28 @@ class Tasks {
   }
 
   generate = (taskListDom) => {
+    let indexUpdater = 0
     taskListDom.innerHTML = '';
     this.tasks.forEach((task) => {
-      this.#addToDom(this.#TaskElement(task), taskListDom)
+      indexUpdater += 1;
+      task.index = indexUpdater
+      const li = this.#TaskElement(task);
+      this.#addEvents(task.uniqueId, li)
+      this.#addToDom(li, taskListDom)
+      this.#addToLocalStorage()
     })
+  }
+
+  retrieve = (taskListDom) => {
+    if (this.#getFromLocalStorage()) {
+      this.generate(taskListDom)
+    }
   }
 
   edit = (editTaskDescription, id) => {
     let taskMod = this.tasks.find(task => task.uniqueId === parseInt(id, 10));
     taskMod.description = editTaskDescription
+    this.#addToLocalStorage()
   }
 
   add = (task, taskListDom) => {
@@ -39,23 +104,17 @@ class Tasks {
     this.idGen += 1;
     task.uniqueId = this.idGen;
     this.tasks.push(task);
-    // this.#addToLocalStorage()
-    // this.#addToDom(this.#TaskElement(task), taskListDom)
   }
 
   remove = (id) => {
     this.items -= 1;
     const updatedTasks = this.tasks.filter(task => task.uniqueId !== parseInt(id, 10));
-    if (updatedTasks.length > 0) {
-      let indexUpdater = 0
-      updatedTasks.forEach((task) => {
-        indexUpdater += 1;
-        task.index = indexUpdater
-      })
-      this.tasks = updatedTasks;
-    }
-    console.log(this.tasks);
+    this.tasks = updatedTasks;
+    this.#addToLocalStorage()
   }
+
+
+
 }
 
 const taskList = new Tasks();
