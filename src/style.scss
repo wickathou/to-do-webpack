@@ -8,3 +8,11 @@
 .hidden {
   display: none;
 }
+
+.highlight {
+  background-color: $yellow;
+}
+
+[id^="order-"]:hover {
+  cursor: move;
+}
