@@ -25,6 +25,7 @@ class Tasks {
   #addEvents = (id, li) => {
     const deleteButton = li.querySelector(`#delete-${id}`);
     const inputText = li.querySelector(`#input-${id}`);
+    const statusCompletion = li.querySelector(`#status-${id}`)
 
     li.addEventListener('dragstart', (e) => {
       e.dataTransfer.setData('text/plain', e.target.id);
@@ -43,6 +44,10 @@ class Tasks {
     inputText.addEventListener('change', (e) => {
       this.edit(e.target.value, id);
     });
+
+    statusCompletion.addEventListener('change', (e) => {
+      this.status(e.target, id)
+    })
 
     li.addEventListener('click', () => {
       li.classList.add('highlight');
@@ -70,7 +75,8 @@ class Tasks {
     li.classList = 'p-4 task-list-element list-group-item d-flex align-items-center justify-content-between';
     li.id = `task-${task.index}`;
     li.setAttribute('draggable', true);
-    li.innerHTML = `<div class="d-flex w-100"><input class="form-check-input me-2" type="checkbox" value=""><input class="w-100 p-0 m-0 border-0" name="" id="input-${task.index}" value="${task.description}"></div><div><a id="order-${task.index}"><i class="ps-2 fa-solid fa-ellipsis-vertical"></i></a><a id="delete-${task.index}"><i class="ps-2 hidden fa-solid fa-trash-can"></i></a></div>`;
+    li.innerHTML = `<div class="d-flex w-100"><input id="status-${task.index}" class="form-check-input me-2" type="checkbox" value=""><input class="w-100 p-0 m-0 border-0" name="" id="input-${task.index}" value="${task.description}"></div><div><a id="order-${task.index}"><i class="ps-2 fa-solid fa-ellipsis-vertical"></i></a><a id="delete-${task.index}"><i class="ps-2 hidden fa-solid fa-trash-can"></i></a></div>`;
+    li.querySelector(`#status-${task.index}`).checked = task.complete;
     return li;
   }
 
@@ -94,9 +100,19 @@ class Tasks {
     }
   }
 
-  edit = (editTaskDescription, id) => {
+  #taskFinder = (id) => {
     const taskMod = this.tasks.find((task) => task.index === parseInt(id, 10));
-    taskMod.description = editTaskDescription;
+    return taskMod;
+  }
+
+  status = (statusElement, id) => {
+    console.log(statusElement.checked);
+    this.#taskFinder(id).complete = statusElement.checked
+    this.#addToLocalStorage();
+  }
+
+  edit = (editTaskDescription, id) => {
+    this.#taskFinder(id).description = editTaskDescription;
     this.#addToLocalStorage();
   }
 
