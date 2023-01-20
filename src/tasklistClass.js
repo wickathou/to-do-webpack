@@ -2,6 +2,7 @@ class Tasks {
   constructor() {
     this.tasks = [];
     this.items = 0;
+    this.insertElement;
   }
 
   #addToLocalStorage = () => {
