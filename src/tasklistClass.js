@@ -11,7 +11,7 @@ class Tasks {
 
   #getFromLocalStorage = () => {
     const storedTasks = JSON.parse(localStorage.getItem('tasks'))
-    if (storedTasks.length > 0) {
+    if (storedTasks) {
       this.tasks = storedTasks;
       return true
     } else {
@@ -24,24 +24,26 @@ class Tasks {
   }
   
   #addEvents = (id, li) => {
-    console.log(id);
-    console.log(li);
     const deleteButton = li.querySelector(`#delete-${id}`)
+    const inputText = li.querySelector(`#input-${id}`)
 
-    li.addEventListener('dragstart', e => {
+    li.addEventListener('dragstart', (e) => {
       e.dataTransfer.setData('text/plain', e.target.id);
     });
-    li.addEventListener('dragover', e => {
+    li.addEventListener('dragover', (e) => {
       e.preventDefault();
     });
-    li.addEventListener('drop', e => {
+    li.addEventListener('drop', (e) => {
       e.preventDefault();
       const data = e.dataTransfer.getData('text/plain');
       const draggableElement = document.getElementById(data);
       const dropzone = e.target.closest('li');
-      console.log(dropzone);
       dropzone.parentNode.insertBefore(draggableElement, dropzone);
     });
+
+    inputText.addEventListener('change', (e) => {
+      this.edit(e.target.value, id)
+    })
 
 
     li.addEventListener('click', (e) => {
@@ -53,7 +55,6 @@ class Tasks {
     deleteButton.addEventListener('click', (i) => {
       taskList.remove(id);
       li.remove()
-      console.log('delete');
     })
 
     document.addEventListener('click', (e) => {
@@ -70,7 +71,7 @@ class Tasks {
     li.classList = 'p-4 task-list-element list-group-item d-flex align-items-center justify-content-between';
     li.id = `task-${task.uniqueId}`;
     li.setAttribute('draggable', true)
-    li.innerHTML = `<div class="d-flex w-100"><input class="form-check-input me-2" type="checkbox" value=""><input class="w-100 p-0 m-0 border-0" name="" id="${task.uniqueId}" value="${task.description}"></div><div><a id="order-${task.uniqueId}"><i class="ps-2 fa-solid fa-ellipsis-vertical"></i></a><a id="delete-${task.uniqueId}"><i class="ps-2 hidden fa-solid fa-trash-can"></i></a></div>`;
+    li.innerHTML = `<div class="d-flex w-100"><input class="form-check-input me-2" type="checkbox" value=""><input class="w-100 p-0 m-0 border-0" name="" id="input-${task.uniqueId}" value="${task.description}"></div><div><a id="order-${task.uniqueId}"><i class="ps-2 fa-solid fa-ellipsis-vertical"></i></a><a id="delete-${task.uniqueId}"><i class="ps-2 hidden fa-solid fa-trash-can"></i></a></div>`;
     return li
   }
 
@@ -99,7 +100,7 @@ class Tasks {
     this.#addToLocalStorage()
   }
 
-  add = (task, taskListDom) => {
+  add = (task) => {
     this.items += 1;
     this.idGen += 1;
     task.uniqueId = this.idGen;
@@ -112,8 +113,6 @@ class Tasks {
     this.tasks = updatedTasks;
     this.#addToLocalStorage()
   }
-
-
 
 }
 
