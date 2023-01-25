@@ -28,7 +28,11 @@ module.exports = {
           },
         }, {
           loader: 'sass-loader',
-        }],
+        }], 
+      },{
+        test: /\.(js|jsx)$/,
+        exclude: /(node_modules|tests)/,
+        use: ['babel-loader']
       },
     ],
   },
