@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import Tasks from '../tasklistClass.js'
 import Task from '../taskClass.js'
 
@@ -15,15 +19,18 @@ describe('Test add a task', ()=> {
     expect(tasksLs.tasks.length).toBe(1)
   });
   //test DOM manipulation when add a task
-  test('Display new task', () => {
-    const task = new Task('newTask');
-    
-    document.body.innerHTML =
-    '<div>' 
-    '  <ul id="list"><li></li></ul>' 
-    '</div>';
-   
-    const list = document.querySelectorAll('#list li');
-    expect(list).toHaveLength(1);
-  })
+  test('adds a new task element to the DOM', () => {
+    //-- Arrange-- Create a Tasks instance and insert it into a mock container element 
+    const container = document.createElement('div');
+    const tasks = new Tasks(container);
+    const task = new Task('Task added to DOM')
+    //--Act-- Add a new task
+    tasks.add(task)
+    tasks.generate(container);
+  
+    //--Asset--Check if the task element has been added to the container
+    const taskElement = container.querySelector('.task-list-element');
+    expect(taskElement).toBeTruthy();
+  });
+  
 })
