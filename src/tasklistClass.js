@@ -51,7 +51,7 @@ export default class Tasks {
     });
 
     statusCompletion.addEventListener('change', (e) => {
-      this.status(e.target, id);
+      this.status(e.target.checked, id);
     });
 
     li.addEventListener('click', () => {
@@ -106,7 +106,7 @@ export default class Tasks {
   }
 
   status = (statusElement, id) => {
-    this.#taskFinder(id).complete = statusElement.checked;
+    this.#taskFinder(id).complete = statusElement;
     this.#addToLocalStorage();
   }
 
